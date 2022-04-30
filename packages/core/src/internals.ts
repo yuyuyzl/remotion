@@ -45,6 +45,10 @@ import {
 	getWebpackOverrideFn,
 	WebpackOverrideFn,
 } from './config/override-webpack';
+import {
+	getFfmpegArgsOverrideFn,
+	getFfmpegComplexFilterOverrideFn,
+} from "./config/override-ffmpeg";
 import {getShouldOverwrite} from './config/overwrite';
 import {getParallelEncoding} from './config/parallel-encoding';
 import {
@@ -136,6 +140,8 @@ export const Internals = {
 	getShouldOverwrite,
 	getOutputCodecOrUndefined,
 	getWebpackOverrideFn,
+	getFfmpegArgsOverrideFn,
+	getFfmpegComplexFilterOverrideFn,
 	getQuality,
 	getShouldOutputImageSequence,
 	validateSelectedCrfAndCodecCombination,

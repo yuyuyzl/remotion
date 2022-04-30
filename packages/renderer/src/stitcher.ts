@@ -161,7 +161,9 @@ export const spawnFfmpeg = async (options: StitcherOptions) => {
 		assetPaths = undefined,
 	} = options.parallelEncoding ? {} : await getAssetsData(options);
 
-	const ffmpegArgs = [
+	const overrideFn=Internals.getFfmpegArgsOverrideFn();
+
+	const ffmpegArgs = overrideFn([
 		['-r', String(options.fps)],
 		...(options.preEncodedFileLocation
 			? [['-i', options.preEncodedFileLocation]]
@@ -212,7 +214,7 @@ export const spawnFfmpeg = async (options: StitcherOptions) => {
 		isAudioOnly ? null : ['-map_metadata', '-1'],
 		options.force ? '-y' : null,
 		options.outputLocation,
-	];
+	],options);
 
 	if (options.verbose) {
 		console.log('Generated FFMPEG command:');

@@ -15,6 +15,7 @@ import {
 	WebpackConfiguration,
 	WebpackOverrideFn,
 } from './override-webpack';
+import {overrideFfmpegArgs, overrideFfmpegComplexFilter} from "./override-ffmpeg";
 import {setOverwriteOutput} from './overwrite';
 import {setParallelEncoding} from './parallel-encoding';
 import {PixelFormat, setPixelFormat} from './pixel-format';
@@ -151,6 +152,13 @@ export const Config = {
 		 * See https://avpres.net/FFmpeg/im_ProRes.html for meaning of possible values.
 		 */
 		setProResProfile,
+
+		/**
+		 * Pass in a function which takes the current FFMpeg args and complex filter
+		 * and return modified ones.
+		 */
+		overrideFfmpegArgs,
+		overrideFfmpegComplexFilter,
 	},
 } as const;
 

@@ -4,6 +4,7 @@ import path from 'path';
 import {FfmpegFilterCalculation} from './calculate-ffmpeg-filters';
 
 const createMix = (filters: FfmpegFilterCalculation[]) => {
+	if(filters.length===0)return undefined;
 	const baseFilter = filters
 		.map((asset) => {
 			return `[a${asset.streamIndex}]`;
@@ -21,19 +22,22 @@ const createMix = (filters: FfmpegFilterCalculation[]) => {
 };
 
 export const createFfmpegComplexFilter = async (
-	filters: FfmpegFilterCalculation[]
+	filters: FfmpegFilterCalculation[],
+	overrideFfmpegComplexFilter:Function=(o: any)=>o,
 ): Promise<{
 	complexFilterFlag: [string, string] | null;
 	cleanup: () => void;
 }> => {
-	if (!filters.length) {
+
+	const complexFilter = overrideFfmpegComplexFilter([
+		...filters.map((f) => f.filter),
+		createMix(filters),
+	]).join(';');
+	console.log("CF",complexFilter);
+	if (!complexFilter.length) {
 		return {complexFilterFlag: null, cleanup: () => undefined};
 	}
 
-	const complexFilter = [
-		...filters.map((f) => f.filter),
-		createMix(filters),
-	].join(';');
 	const tempPath = await fs.promises.mkdtemp(
 		path.join(os.tmpdir(), 'remotion-complex-filter')
 	);

@@ -5,7 +5,12 @@ import {Config, WebpackOverrideFn} from 'remotion';
 Config.Output.setOverwriteOutput(true);
 Config.Rendering.setConcurrentMode('browser');
 Config.Rendering.setParallelEncoding(true);
+Config.Rendering.setConcurrency(6);
 //Config.Log.setLevel('verbose');
+Config.Output.overrideFfmpegArgs(o=>{
+	console.log(o);
+	return(o);
+})
 
 type Bundler = 'webpack' | 'esbuild';
 
