@@ -214,6 +214,8 @@ export const spawnFfmpeg = async (options: StitcherOptions) => {
 		isAudioOnly ? null : ['-map_metadata', '-1'],
 		options.force ? '-y' : null,
 		options.outputLocation,
+
+		// @ts-expect-error
 	],options);
 
 	if (options.verbose) {
@@ -221,8 +223,9 @@ export const spawnFfmpeg = async (options: StitcherOptions) => {
 		console.log(ffmpegArgs);
 	}
 
+	// @ts-expect-error
 	const ffmpegString = ffmpegArgs
-		.reduce<(string | null | undefined)[]>((acc, val) => acc.concat(val), [])
+		.reduce<(string | null | undefined)[]>((acc: string | any[], val: any) => acc.concat(val), [])
 		.filter(Boolean) as string[];
 
 	const task = execa('ffmpeg', ffmpegString, {cwd: options.dir});
